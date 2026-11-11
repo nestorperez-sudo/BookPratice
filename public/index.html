@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bookshelf</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="top">
+        <div>
+            <h1>Bookshelf</h1>
+            <p id="summary" class="muted">Loading…</p>
+        </div>
+        <button type="button" id="add-button" class="btn primary">+ Add book</button>
+    </header>
+
+    <main>
+        <form id="filters" class="filters" role="search">
+            <input type="search" id="search" name="search" placeholder="Search title or author…" aria-label="Search books">
+
+            <select id="genre-filter" name="genre" aria-label="Filter by genre">
+                <option value="">All genres</option>
+                <option value="fiction">Fiction</option>
+                <option value="non-fiction">Non-fiction</option>
+                <option value="sci-fi">Sci-fi</option>
+                <option value="fantasy">Fantasy</option>
+                <option value="history">History</option>
+                <option value="tech">Tech</option>
+                <option value="other">Other</option>
+            </select>
+
+            <select id="sort" name="sort" aria-label="Sort books">
+                <option value="title:asc">Title A–Z</option>
+                <option value="title:desc">Title Z–A</option>
+                <option value="author:asc">Author A–Z</option>
+                <option value="pages:desc">Longest first</option>
+                <option value="pages:asc">Shortest first</option>
+                <option value="rating:desc">Best rated</option>
+            </select>
+
+            <button type="submit" class="btn">Search</button>
+        </form>
+
+        <div class="tabs" role="group" aria-label="Filter by reading status">
+            <button type="button" data-status="" aria-pressed="true">All</button>
+            <button type="button" data-status="to-read" aria-pressed="false">To read</button>
+            <button type="button" data-status="reading" aria-pressed="false">Reading</button>
+            <button type="button" data-status="finished" aria-pressed="false">Finished</button>
+        </div>
+
+        <p id="list-status" class="status" role="status"></p>
+        <section id="books" class="grid" aria-live="polite"></section>
+    </main>
+
+    <dialog id="book-dialog" aria-labelledby="dialog-title">
+        <form id="book-form" novalidate>
+            <h2 id="dialog-title">Add a book</h2>
+
+            <label>Title
+                <input name="title" type="text" maxlength="100" autocomplete="off">
+                <span class="error" data-error-for="title"></span>
+            </label>
+
+            <label>Author
+                <input name="author" type="text" maxlength="60" autocomplete="off">
+                <span class="error" data-error-for="author"></span>
+            </label>
+
+            <div class="row">
+                <label>Genre
+                    <select name="genre">
+                        <option value="">Choose…</option>
+                        <option value="fiction">Fiction</option>
+                        <option value="non-fiction">Non-fiction</option>
+                        <option value="sci-fi">Sci-fi</option>
+                        <option value="fantasy">Fantasy</option>
+                        <option value="history">History</option>
+                        <option value="tech">Tech</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <span class="error" data-error-for="genre"></span>
+                </label>
+
+                <label>Pages
+                    <input name="pages" type="number" min="1" max="5000" step="1" inputmode="numeric">
+                    <span class="error" data-error-for="pages"></span>
+                </label>
+            </div>
+
+            <div class="row">
+                <label>Status
+                    <select name="status">
+                        <option value="to-read">To read</option>
+                        <option value="reading">Reading</option>
+                        <option value="finished">Finished</option>
+                    </select>
+                    <span class="error" data-error-for="status"></span>
+                </label>
+
+                <label>Rating
+                    <select name="rating">
+                        <option value="">No rating</option>
+                        <option value="1">1 ★</option>
+                        <option value="2">2 ★</option>
+                        <option value="3">3 ★</option>
+                        <option value="4">4 ★</option>
+                        <option value="5">5 ★</option>
+                    </select>
+                    <span class="hint">Only for finished books.</span>
+                    <span class="error" data-error-for="rating"></span>
+                </label>
+            </div>
+
+            <p id="form-error" class="error form-error" role="alert"></p>
+
+            <div class="actions">
+                <button type="button" class="btn" data-close-dialog>Cancel</button>
+                <button type="submit" class="btn primary">Save</button>
+            </div>
+        </form>
+    </dialog>
+
+    <!-- CARDS -->
+
+    <article class="card">
+        <h2>Dune</h2>
+        <p class="author">Frank Herbert</p>
+        <p class="meta">sci-fi · 612 pages</p>
+        <p class="rating">★★★★★</p>
+        <div class="card-footer">
+            <select aria-label="Reading status of Dune">
+                <option value="to-read">To read</option>
+                <option value="reading">Reading</option>
+                <option value="finished" selected>Finished</option>
+            </select>
+            <div>
+                <button type="button" class="text-button">Edit</button>
+                <button type="button" class="text-button danger">Delete</button>
+            </div>
+        </div>
+    </article>
+
+    <script src="js/ui.js"></script>
+    <script src="js/cardHandling.js"></script>
+</body>
+</html>

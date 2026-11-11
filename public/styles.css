@@ -1,0 +1,159 @@
+:root {
+    --bg: #f6f5f1;
+    --surface: #ffffff;
+    --text: #1f2430;
+    --muted: #6b7280;
+    --border: #dcd9d0;
+    --accent: #2f5d50;
+    --accent-text: #ffffff;
+    --danger: #b3261e;
+    --radius: 10px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+    padding: 25px;
+}
+
+.top, main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+.top {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    padding-top: 5px;
+    padding-bottom: 16px;
+}
+
+h1 { margin: 0; font-size: 1.9rem; }
+.muted { margin: 4px 0 0; color: var(--muted); }
+
+.btn {
+    font: inherit;
+    padding: 8px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+}
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-text); }
+.btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+:focus-visible { outline: 3px solid #7aa595; outline-offset: 2px; }
+
+/* Filters */
+.filters {
+    display: grid;
+    grid-template-columns: 1fr auto auto auto;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+.filters input, .filters select, dialog input, dialog select {
+    font: inherit;
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    color: inherit;
+    width: 100%;
+}
+
+.tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+.tabs button {
+    font: inherit;
+    padding: 6px 14px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--surface);
+    cursor: pointer;
+}
+.tabs button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-text); }
+
+/* Status line (loading / empty / error) */
+.status { min-height: 1.5em; margin: 8px 0 16px; color: var(--muted); }
+.status.error { color: var(--danger); }
+
+/* Cards */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 14px;
+    padding-bottom: 48px;
+}
+.card {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+.card h2 { margin: 0; font-size: 1.1rem; }
+.card .author { margin: 0; color: var(--muted); }
+.card .meta { margin: 0; font-size: 0.9rem; color: var(--muted); }
+.card .rating { margin: 0; letter-spacing: 2px; }
+.card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: auto;
+    padding-top: 10px;
+}
+.card-footer select {
+    font: inherit;
+    font-size: 0.9rem;
+    padding: 4px 6px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--surface);
+}
+.text-button {
+    font: inherit;
+    font-size: 0.9rem;
+    background: none;
+    border: none;
+    padding: 4px 6px;
+    color: var(--accent);
+    cursor: pointer;
+    text-decoration: underline;
+}
+.text-button.danger { color: var(--danger); }
+
+/* Dialog form */
+dialog {
+    width: min(460px, calc(100vw - 32px));
+    padding: 0;
+    border: none;
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--text);
+}
+dialog::backdrop { background: rgba(20, 24, 32, 0.5); }
+dialog form { display: grid; gap: 12px; padding: 20px; }
+dialog h2 { margin: 0; }
+dialog label { display: grid; gap: 4px; font-size: 0.9rem; font-weight: 600; }
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.hint { font-weight: 400; color: var(--muted); font-size: 0.8rem; }
+.error { color: var(--danger); font-weight: 400; font-size: 0.85rem; min-height: 0; margin: 0; }
+.actions { display: flex; justify-content: flex-end; gap: 8px; }
+input[aria-invalid="true"], select[aria-invalid="true"] { border-color: var(--danger); }
+
+@media (max-width: 640px) {
+    .filters { grid-template-columns: 1fr 1fr; }
+    .filters input[type="search"] { grid-column: 1 / -1; }
+    .row { grid-template-columns: 1fr; }
+}
