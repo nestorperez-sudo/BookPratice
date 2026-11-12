@@ -1,0 +1,27 @@
+const store = require("../data/data.js")
+const validator = require("../validators/validator.js") 
+
+function listBooks(req, res) {
+    const { valid, errors, filters } = validator(req.query)
+
+    if (!valid) return res.status(400).json(errors)
+
+    let books = store.books
+    console.log(books)
+    if (filters.search) {
+        books = books.filter((book) => book.title.toLowerCase() === filters.search.toLowerCase())
+        if (books.length !== 0) {
+            res.status(200).json(books)
+        } else {
+            res.status(200).json({ msg: "empty array" })
+        }
+    } else {
+        res.status(200).json(books)
+    }
+
+
+
+
+}
+
+module.exports = { listBooks }

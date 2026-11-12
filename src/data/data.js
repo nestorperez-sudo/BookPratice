@@ -11,7 +11,10 @@ const books = [
     { id: 10, title: "Guns, Germs, and Steel",        author: "Jared Diamond",         genre: "history",     pages: 528, status: "finished", rating: 3 },
     { id: 11, title: "Thinking, Fast and Slow",       author: "Daniel Kahneman",       genre: "non-fiction", pages: 499, status: "reading",  rating: null },
     { id: 12, title: "The Alchemist",                 author: "Paulo Coelho",          genre: "fiction",     pages: 208, status: "finished", rating: 3 },
-    { id: 13, title: "Atomic Habits",                 author: "James Clear",           genre: "other",       pages: 320, status: "to-read",  rating: null }
+    { id: 13, title: "Atomic Habits",                 author: "James Clear",           genre: "other",       pages: 320, status: "to-read",  rating: null },
+    { id: 14, title: "King of Kings",                 author: "Néstor Pérez",          genre: "aura",        pages: 260, status: "to-read",  rating: 5 }
 ];
 
-let nextId = 14; // the server assigns ids; the next new book gets 14
+let nextId = 15; // the server assigns ids; the next new book gets 14
+
+module.exports = { books }

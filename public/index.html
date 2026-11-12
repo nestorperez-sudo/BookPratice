@@ -40,7 +40,7 @@
                 <option value="rating:desc">Best rated</option>
             </select>
 
-            <button type="submit" class="btn">Search</button>
+            <button type="submit" class="btn" id="search-btn">Search</button>
         </form>
 
         <div class="tabs" role="group" aria-label="Filter by reading status">
@@ -124,25 +124,7 @@
 
     <!-- CARDS -->
 
-    <article class="card">
-        <h2>Dune</h2>
-        <p class="author">Frank Herbert</p>
-        <p class="meta">sci-fi · 612 pages</p>
-        <p class="rating">★★★★★</p>
-        <div class="card-footer">
-            <select aria-label="Reading status of Dune">
-                <option value="to-read">To read</option>
-                <option value="reading">Reading</option>
-                <option value="finished" selected>Finished</option>
-            </select>
-            <div>
-                <button type="button" class="text-button">Edit</button>
-                <button type="button" class="text-button danger">Delete</button>
-            </div>
-        </div>
-    </article>
-
     <script src="js/ui.js"></script>
-    <script src="js/cardHandling.js"></script>
+    <script type="module" src="js/cardHandling.js"></script>
 </body>
 </html>

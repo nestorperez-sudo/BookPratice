@@ -1,0 +1,23 @@
+function validateQuery(query) {
+    const { search } = query;
+    const errors = [];
+    const filters = {};
+    const limit = 30;
+
+    if (search !== undefined) {
+        if (typeof search !== "string") {
+            errors.push({ field: "search", message: "Send search only once." });
+        } else {
+            const term = search.trim();
+            if (term.length > limit) {
+                errors.push({ field: "search", message: `Must be at most ${limit} characters.` });
+            } else if (term !== "") {
+                filters.search = term;     // only stored when there is something to search
+            }
+        }
+    }
+
+    return { valid: errors.length === 0, errors, filters };
+}
+
+module.exports = validateQuery
