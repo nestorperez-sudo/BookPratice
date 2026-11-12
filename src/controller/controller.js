@@ -8,7 +8,8 @@ function listBooks(req, res) {
 
     let books = store.books
     if (filters.search) {
-        books = books.filter((book) => book.title.toLowerCase() === filters.search.toLowerCase())
+        const filter = filters.search.toLowerCase()
+        books = books.filter((book) => book.title.toLowerCase().includes(filter) || book.author.toLowerCase().includes(filter))
         if (books.length !== 0) {
             res.status(200).json(books)
         } else {
