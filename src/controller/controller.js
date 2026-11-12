@@ -7,13 +7,12 @@ function listBooks(req, res) {
     if (!valid) return res.status(400).json(errors)
 
     let books = store.books
-    console.log(books)
     if (filters.search) {
         books = books.filter((book) => book.title.toLowerCase() === filters.search.toLowerCase())
         if (books.length !== 0) {
             res.status(200).json(books)
         } else {
-            res.status(200).json({ msg: "empty array" })
+            res.status(200).json("Did not find a book by such name")
         }
     } else {
         res.status(200).json(books)
