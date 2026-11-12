@@ -4,9 +4,9 @@
     --text: #1f2430;
     --muted: #6b7280;
     --border: #dcd9d0;
-    --accent: #2f5d50;
+    --accent: #92140c;
     --accent-text: #ffffff;
-    --danger: #b3261e;
+    --danger: #393e41;
     --radius: 10px;
 }
 
@@ -127,11 +127,11 @@ h1 { margin: 0; font-size: 1.9rem; }
     background: none;
     border: none;
     padding: 4px 6px;
-    color: var(--accent);
+    color: var(--danger);
     cursor: pointer;
     text-decoration: underline;
 }
-.text-button.danger { color: var(--danger); }
+.text-button.danger { color: var(--accent); }
 
 /* Dialog form */
 dialog {
