@@ -18,8 +18,12 @@ function listBooks(req, res) {
     } else {
         res.status(200).json(books)
     }
-
-
 }
 
-module.exports = { listBooks }
+function addBook(req, res) {
+    const book = req.body
+
+    store.books.push(book)
+}
+
+module.exports = { listBooks, addBook }
