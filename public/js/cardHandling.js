@@ -1,6 +1,24 @@
 import { apiRequest } from "./api.js"
 
-// CREATE CARD FUNCTIONS
+const grid = document.getElementById("books");
+const searchBtn = document.getElementById("search-btn")
+const summary = document.getElementById("summary")
+const saveBtn = document.getElementById("save-btn")
+const form = document.getElementById("book-form");
+
+
+
+// ---------------------------------- LOAD ALL BOOKS -----------------------------
+async function loadBooks() {
+    const books = await apiRequest("GET", "/books")
+
+    console.log(books)
+    displayBooks(books)
+}
+
+loadBooks()
+
+// --------------------------- CREATE CARD FUNCTIONS -----------------------------------------
 function el(tag, className, text) {
     const element = document.createElement(tag)
     element.className = className
@@ -57,12 +75,7 @@ function createCard(books) {
     return card
 }
 
-const grid = document.getElementById("books");
-
-
-// SEARCH
-const searchBtn = document.getElementById("search-btn")
-
+// ----------------------------- GET BOOKS -----------------------------------------------
 // build search query
 function searchQuery(query) {
     const searchQuery = new URLSearchParams()
@@ -70,6 +83,11 @@ function searchQuery(query) {
     return searchQuery.toString()
 }
 
+// display books
+function displayBooks(books) {
+    grid.replaceChildren()
+    books.forEach((book) => grid.appendChild(createCard(book)))
+}
 
 searchBtn.addEventListener("click", async (e) => {
     e.preventDefault()
@@ -77,18 +95,33 @@ searchBtn.addEventListener("click", async (e) => {
 
     try {
         let books;
-        if (input) {
-            books = await apiRequest("GET", `/books?${searchQuery(input)}`)
-        } else {
-            books = await apiRequest("GET", "/books")
-        }
-        
-        console.log(books)
+        const path = input ? `/books?${searchQuery(input)}` : "/books"
+        books = await apiRequest("GET", path)
+        summary.textContent = ""
 
-        grid.replaceChildren()
-        books.forEach((book) => grid.appendChild(createCard(book)))
+        displayBooks(books)
     } catch (err) {
-        console.error(err.message)
+        // err.message
+        summary.textContent = err.message   
     }
 })
 
+
+// ---------------------------- ADD A BOOK ----------------------------------------------
+saveBtn.addEventListener("click", async (e) => {
+    e.preventDefault()
+
+    const titleElement = form.element.value.trim()
+    const authorElement = form.element.value.trim()
+    const genreElement = form.element.value
+    const pagesElement = Number(form.element.value)
+    const statusElement = form.element.value
+    const ratingElement = form.element.value = "" ? null : Number(form.element.value)
+
+    const body = { id: 0, title: titleElement, author: authorElement, genre: genreElement, pages: pagesElement, status: statusElement, rating: 5}
+
+    const book = await apiRequest("POST", "/books", body)
+
+    loadBooks()
+
+})

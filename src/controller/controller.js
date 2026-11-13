@@ -13,13 +13,11 @@ function listBooks(req, res) {
         if (books.length !== 0) {
             res.status(200).json(books)
         } else {
-            res.status(200).json("Did not find a book by such name")
+            res.status(404).json({ error: "You aint read that 😭😭😭" })
         }
     } else {
         res.status(200).json(books)
     }
-
-
 
 
 }
