@@ -1,5 +1,5 @@
 function validateQuery(query) {
-    const { search } = query;
+    const { search, genre, sort } = query;
     const errors = [];
     const filters = {};
     const limit = 30;
@@ -20,4 +20,14 @@ function validateQuery(query) {
     return { valid: errors.length === 0, errors, filters };
 }
 
-module.exports = validateQuery
+
+function validateForm(book) {
+    let errors = []
+
+    if (book.title !== "string" || book.title.trim() === "") errors.push("Needs a title") 
+
+    console.log(errors)
+    return { valid: errors.length === 0, errors }
+}
+
+module.exports = { validateQuery, validateForm }

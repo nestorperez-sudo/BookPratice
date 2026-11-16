@@ -1,11 +1,11 @@
 import { apiRequest } from "./api.js"
 
-const grid = document.getElementById("books");
+const grid = document.getElementById("books")
 const searchBtn = document.getElementById("search-btn")
 const summary = document.getElementById("summary")
-const saveBtn = document.getElementById("save-btn")
-const form = document.getElementById("book-form");
-
+const form = document.getElementById("book-form")
+const filters = document.getElementById("filters")
+const genreFilter = document.getElementById("genre-filter")
 
 
 // ---------------------------------- LOAD ALL BOOKS -----------------------------
@@ -72,16 +72,19 @@ function createCard(books) {
     footer.appendChild(footerDiv)
     card.appendChild(footer)
 
+    card.dataset.id = books.id
+
     return card
 }
 
-// ----------------------------- GET BOOKS -----------------------------------------------
-// build search query
-function searchQuery(query) {
+// ------------------------------- SEARCH QUERY --------------------------------------------
+function searchQuery(searchType, query) {
     const searchQuery = new URLSearchParams()
-    searchQuery.set("search", query)
+    searchQuery.set(`${searchType}`, query)
     return searchQuery.toString()
 }
+
+// ----------------------------- GET BOOKS -----------------------------------------------
 
 // display books
 function displayBooks(books) {
@@ -89,14 +92,26 @@ function displayBooks(books) {
     books.forEach((book) => grid.appendChild(createCard(book)))
 }
 
-searchBtn.addEventListener("click", async (e) => {
+filters.addEventListener("click", async (e) => {
     e.preventDefault()
+
+    if (e.target.id === "search") return;
+
     const input = document.getElementById("search").value.trim()
+    const genreFilter = document.getElementById("genre-filter").value
+    const sortFilter = document.getElementById("sort").value
 
     try {
         let books;
-        const path = input ? `/books?${searchQuery(input)}` : "/books"
-        books = await apiRequest("GET", path)
+        let path = ""
+        path += input ? `/books?${searchQuery("search", input)}` : "/books?"
+        path += genreFilter ? `&${searchQuery("genre", genreFilter)}` : ""
+        path += `&${searchQuery("sort", sortFilter)}`
+
+        console.log(path)
+
+
+        books = await apiRequest(path)
         summary.textContent = ""
 
         displayBooks(books)
@@ -108,20 +123,59 @@ searchBtn.addEventListener("click", async (e) => {
 
 
 // ---------------------------- ADD A BOOK ----------------------------------------------
-saveBtn.addEventListener("click", async (e) => {
+form.addEventListener("submit", async (e) => {
     e.preventDefault()
 
-    const titleElement = form.element.value.trim()
-    const authorElement = form.element.value.trim()
-    const genreElement = form.element.value
-    const pagesElement = Number(form.element.value)
-    const statusElement = form.element.value
-    const ratingElement = form.element.value = "" ? null : Number(form.element.value)
+    const titleElement = form.elements.title.value.trim()
+    const authorElement = form.elements.author.value.trim()
+    const genreElement = form.elements.genre.value
+    const pagesElement = Number(form.elements.pages.value)
+    const statusElement = form.elements.status.value
+    const ratingElement = form.elements.rating.value === "" ? null : Number(form.elements.rating.value)
 
-    const body = { id: 0, title: titleElement, author: authorElement, genre: genreElement, pages: pagesElement, status: statusElement, rating: 5}
+    const body = { title: titleElement, author: authorElement, genre: genreElement, pages: pagesElement, status: statusElement, rating: ratingElement }
 
-    const book = await apiRequest("POST", "/books", body)
+    try {
+        await apiRequest("POST", "/books", body)
+        document.getElementById("book-dialog").close()
+        loadBooks()
+    } catch (err) {
+        document.getElementById("form-error").textContent = err.message
+    }
+})
 
-    loadBooks()
+
+// ------------------------------------------ DELETE A BOOK -------------------------------------------------
+
+grid.addEventListener("click", async (e) => {
+    const btn = e.target.closest(".danger")
+    console.log(btn)
+    const container = e.target.closest('[data-id]')
+    const id = container.dataset["id"]
+
+    if (!btn) return;
+
+    try {
+        await apiRequest("DELETE", `/books/${id}`)
+        loadBooks()
+    } catch(err) {
+        summary.textContent = err.message 
+    }
 
 })
+
+
+// ------------------------------------------ FILTERS -----------------------------------------------------
+// filters.addEventListener("click", async (e) => {
+//     e.preventDefault()
+//     console.log(e.target.value)
+    
+//     try {
+//         const books = await apiRequest("GET", `/books?${searchQuery("filter", e.target.value)}`)  
+//         displayBooks(books)
+//     } catch (err) {
+//         summary.textContent = err.message
+//     }
+
+    
+// })
